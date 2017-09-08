@@ -28,6 +28,11 @@ import (
 // after ttl or when context is canceled (if network connection is still alive).
 // Returned context is set to cancel after ttl. CancelFunc should be used to
 // release lock before it expires.
+//
+// On success conn is bound to CancelFunc so it shouldn't be reused until
+// CancelFunc is called otherwise it would break Redis session state. Normally
+// conn should be created by caller specifically to be used by Acquire and
+// closed once CancelFunc is called.
 func Acquire(ctx context.Context, conn io.ReadWriter, name string, ttl time.Duration) (context.Context, context.CancelFunc, error) {
 	if ttl <= 0 {
 		return nil, nil, errors.New("non-positive TTL")
