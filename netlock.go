@@ -1,7 +1,8 @@
 // Package netlock provides simple mutex-like primitive that uses Redis server
 // to coordinate.
 //
-// It implements algorithm described here: https://redis.io/commands/set#patterns
+// It implements the algorithm described at
+// https://redis.io/commands/set#patterns
 //
 // Caller tries to set unique key with given TTL (upper estimate of time to hold
 // the mutex), if it succeeds, it can proceed with its work using context to
@@ -24,7 +25,7 @@ import (
 )
 
 // Acquire attempts to acquire shared lock with given name on existing
-// connection conn to Redist host. If successful, the key name is set to expire
+// connection conn to Redist host. On success, the key name is set to expire
 // after ttl or when context is canceled (if network connection is still alive).
 // Returned context is set to cancel after ttl. CancelFunc should be used to
 // release lock before it expires.
